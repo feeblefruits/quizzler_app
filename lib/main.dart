@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'quiz_brain.dart';
 
 QuizBrain quizBrain = QuizBrain();
@@ -27,15 +28,52 @@ class QuizPage extends StatefulWidget {
   _QuizPageState createState() => _QuizPageState();
 }
 
+var alertStyle = AlertStyle(
+  animationType: AnimationType.fromTop,
+  isCloseButton: false,
+  isOverlayTapDismiss: true,
+  descStyle: TextStyle(fontWeight: FontWeight.bold),
+  animationDuration: Duration(milliseconds: 400),
+  alertBorder: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(0.0),
+    side: BorderSide(
+      color: Colors.grey,
+    ),
+  ),
+  titleStyle: TextStyle(
+    color: Colors.red,
+  ),
+);
+
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
 
-  int questionNumber = 0;
+  void checkAnswer(bool userPickedAnswer) {
+    bool correctAnswer = quizBrain.getQuestionAnswer();
 
-  void updateNumber() {
-    setState(() {
-      questionNumber++;
-    });
+    if (scoreKeeper.length < quizBrain.questionBankLength()) {
+      setState(() {
+        if (userPickedAnswer == correctAnswer) {
+          scoreKeeper.add(Icon(
+            Icons.check,
+            color: Colors.green,
+          ));
+        } else {
+          scoreKeeper.add(Icon(
+            Icons.close,
+            color: Colors.red,
+          ));
+        }
+        quizBrain.nextQuestion();
+      });
+    } else {
+      Alert(
+              style: alertStyle,
+              context: context,
+              title: "Quiz done!",
+              desc: "You got $correctAnswer% correct")
+          .show();
+    }
   }
 
   @override
@@ -50,7 +88,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                quizBrain.questionBank[questionNumber].questionText,
+                quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -75,17 +113,7 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 // The user picked true
-
-                bool correctAnswer =
-                    quizBrain.questionBank[questionNumber].questionAnswer;
-
-                if (correctAnswer == true) {
-                  print('got it right');
-                } else {
-                  print('got it wrong');
-                }
-
-                updateNumber();
+                checkAnswer(true);
               },
             ),
           ),
@@ -103,16 +131,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer =
-                    quizBrain.questionBank[questionNumber].questionAnswer;
-
-                if (correctAnswer == false) {
-                  print('got it right');
-                } else {
-                  print('got it wrong');
-                }
-
-                updateNumber();
+                checkAnswer(false);
               },
             ),
           ),
