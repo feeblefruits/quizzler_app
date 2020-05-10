@@ -4,32 +4,46 @@ class QuizBrain {
   int _questionNumber = 0;
 
   List<Question> _questionBank = [
-    Question(q: 'Some cats are actually allergic to humans', a: true),
-    Question(q: 'You can lead a cow down stairs but not up stairs.', a: false),
     Question(
-        q: 'Approximately one quarter of human bones are in the feet.',
+        q: 'One COVID-19 infected person infects about 2.5 other people.',
         a: true),
-    Question(q: 'A slug\'s blood is green.', a: true),
-    Question(q: 'Buzz Aldrin\'s mother\'s maiden name was \"Moon\".', a: true),
-    Question(q: 'It is illegal to pee in the Ocean in Portugal.', a: true),
     Question(
-        q: 'No piece of square dry paper can be folded in half more than 7 times.',
+        q: 'Patients with COVID-19 can take anti-inflammatory medicine like ibuprofen, aspirin or naproxen.',
+        a: true),
+    Question(
+        q: 'Once infected with the coronavirus, it can take 2 to 14 days to show symptoms.',
+        a: true),
+    Question(
+        q: 'Hand sanitizer doesn’t kill coronavirus because it’s antibacterial, not antiviral.',
         a: false),
     Question(
-        q: 'In London, UK, if you happen to die in the House of Parliament, you are technically entitled to a state funeral, because the building is considered too sacred a place.',
-        a: true),
-    Question(
-        q: 'The loudest sound produced by any animal is 188 decibels. That animal is the African Elephant.',
+        q: '“If you have a runny nose and sputum, you have a common cold,” not COVID-19.',
         a: false),
     Question(
-        q: 'The total surface area of two human lungs is approximately 70 square metres.',
-        a: true),
-    Question(q: 'Google was originally called \"Backrub\".', a: true),
+        q: 'Researcher Judy Mikovits was thrown in jail after she refused to discredit research that led to the discovery that deadly retroviruses have been transmitted through vaccines.',
+        a: false),
     Question(
-        q: 'Chocolate affects a dog\'s heart and nervous system; a few ounces are enough to kill a small dog.',
-        a: true),
+        q: 'The fact that the 5G network was rolled out in the Chinese city of Wuhan just a few weeks before the coronavirus came on the scene, proves that the cellular technology is behind the spread of Covid-19',
+        a: false),
     Question(
-        q: 'In West Virginia, USA, if you accidentally hit an animal with your car, you are free to take it home to eat.',
+        q: 'Researcher Judy Mikovits was arrested without a warrant and jailed without charges for making a controversial scientific discovery.',
+        a: false),
+    Question(q: 'Healthy people should practice social distancing.', a: true),
+    Question(
+        q: 'During a shelter-in-place order, my kids can be with other kids in small groups.',
+        a: false),
+    Question(
+        q: 'Anyone with COVID-19 symptoms, regardless of their overall health, should seek testing',
+        a: false),
+    Question(
+        q: 'Bill Gates — along with a coalition dubbed "ID 2020" — seeks to "microchip" the world population using a COVID-19 vaccine.',
+        a: false),
+    Question(q: 'A loss of smell or taste is a symptom of COVID-19.', a: true),
+    Question(
+        q: 'A sprawling conspiracy theory proves numerous individuals and organizations schemed to promote the drug Remdesivir as a COVID-19 treatment over the purportedly highly effective Hydroxychloroquine.',
+        a: false),
+    Question(
+        q: 'If you can hold your breath for 10 seconds, you don’t have COVID-19.',
         a: true)
   ];
 

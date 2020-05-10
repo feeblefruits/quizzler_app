@@ -48,6 +48,19 @@ var alertStyle = AlertStyle(
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
 
+  List<int> correctAnswers = [];
+  List<int> wrongAnswers = [];
+
+  String finalScore = '';
+
+  void correctAnswerLength() {
+    setState(() {
+      finalScore =
+          ((correctAnswers.length / quizBrain.questionBankLength()) * 100)
+              .toStringAsFixed(0);
+    });
+  }
+
   void checkAnswer(bool userPickedAnswer) {
     bool correctAnswer = quizBrain.getQuestionAnswer();
 
@@ -58,20 +71,24 @@ class _QuizPageState extends State<QuizPage> {
             Icons.check,
             color: Colors.green,
           ));
+          correctAnswers.add(1);
         } else {
           scoreKeeper.add(Icon(
             Icons.close,
             color: Colors.red,
           ));
+          wrongAnswers.add(1);
         }
         quizBrain.nextQuestion();
       });
     } else {
+      correctAnswerLength();
       Alert(
               style: alertStyle,
               context: context,
               title: "Quiz done!",
-              desc: "You got $correctAnswer% correct")
+//              image: Image.asset("assets/success.png"),
+              desc: "You got $finalScore% correct")
           .show();
     }
   }
@@ -85,7 +102,7 @@ class _QuizPageState extends State<QuizPage> {
         Expanded(
           flex: 5,
           child: Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(15.0),
             child: Center(
               child: Text(
                 quizBrain.getQuestionText(),
@@ -100,19 +117,19 @@ class _QuizPageState extends State<QuizPage> {
         ),
         Expanded(
           child: Padding(
-            padding: EdgeInsets.all(15.0),
-            child: FlatButton(
-              textColor: Colors.white,
-              color: Colors.green,
+            padding: EdgeInsets.all(12.0),
+            child: OutlineButton(
+              borderSide: BorderSide(color: Colors.green, width: 2),
+              shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(30.0)),
               child: Text(
                 'True',
                 style: TextStyle(
-                  color: Colors.white,
                   fontSize: 20.0,
+                  color: Colors.black87,
                 ),
               ),
               onPressed: () {
-                // The user picked true
                 checkAnswer(true);
               },
             ),
@@ -120,14 +137,16 @@ class _QuizPageState extends State<QuizPage> {
         ),
         Expanded(
           child: Padding(
-            padding: EdgeInsets.all(15.0),
-            child: FlatButton(
-              color: Colors.red,
+            padding: EdgeInsets.all(12.0),
+            child: OutlineButton(
+              borderSide: BorderSide(color: Colors.red, width: 2),
+              shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(30.0)),
               child: Text(
                 'False',
                 style: TextStyle(
                   fontSize: 20.0,
-                  color: Colors.white,
+                  color: Colors.black87,
                 ),
               ),
               onPressed: () {
