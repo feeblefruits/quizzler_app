@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'quiz_brain.dart';
 
@@ -12,6 +13,17 @@ class Quizzler extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Color.fromRGBO(0, 89, 179, 0.75),
+          title: Text(
+            'Know your COVID-19',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 22.0,
+              fontFamily: 'Schyler',
+            ),
+          ),
+        ),
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -31,8 +43,8 @@ class QuizPage extends StatefulWidget {
 var alertStyle = AlertStyle(
   animationType: AnimationType.fromTop,
   isCloseButton: false,
-  isOverlayTapDismiss: true,
-  descStyle: TextStyle(fontWeight: FontWeight.bold),
+  isOverlayTapDismiss: false,
+  descStyle: TextStyle(fontFamily: 'Schyler'),
   animationDuration: Duration(milliseconds: 400),
   alertBorder: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(0.0),
@@ -42,6 +54,7 @@ var alertStyle = AlertStyle(
   ),
   titleStyle: TextStyle(
     color: Colors.red,
+    fontFamily: 'Schyler',
   ),
 );
 
@@ -68,13 +81,13 @@ class _QuizPageState extends State<QuizPage> {
       setState(() {
         if (userPickedAnswer == correctAnswer) {
           scoreKeeper.add(Icon(
-            Icons.check,
+            Icons.check_circle_outline,
             color: Colors.green,
           ));
           correctAnswers.add(1);
         } else {
           scoreKeeper.add(Icon(
-            Icons.close,
+            Icons.block,
             color: Colors.red,
           ));
           wrongAnswers.add(1);
@@ -84,12 +97,43 @@ class _QuizPageState extends State<QuizPage> {
     } else {
       correctAnswerLength();
       Alert(
-              style: alertStyle,
-              context: context,
-              title: "Quiz done!",
-//              image: Image.asset("assets/success.png"),
-              desc: "You got $finalScore% correct")
-          .show();
+        style: alertStyle,
+        context: context,
+        title: "Quiz done!",
+        desc: "You got $finalScore% correct",
+        buttons: [
+          DialogButton(
+            child: Text(
+              "Restart",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontFamily: 'Schyler',
+              ),
+            ),
+            onPressed: () {
+              quizBrain.reset();
+              Navigator.pop(context);
+            },
+            color: Color.fromRGBO(0, 89, 179, 0.75),
+          ),
+          DialogButton(
+            child: Text(
+              "Quit",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontFamily: 'Schyler',
+              ),
+            ),
+            onPressed: () =>
+                SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
+            color: Color.fromRGBO(0, 89, 179, 0.75),
+          )
+        ],
+      ).show();
+      scoreKeeper = [];
+      correctAnswers = [];
     }
   }
 
@@ -109,6 +153,7 @@ class _QuizPageState extends State<QuizPage> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
+                  fontFamily: 'Schyler',
                   color: Colors.black87,
                 ),
               ),
@@ -118,15 +163,15 @@ class _QuizPageState extends State<QuizPage> {
         Expanded(
           child: Padding(
             padding: EdgeInsets.all(12.0),
-            child: OutlineButton(
-              borderSide: BorderSide(color: Colors.green, width: 2),
-              shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0)),
+            child: DialogButton(
+              color: Color.fromRGBO(0, 179, 134, 1.0),
               child: Text(
                 'True',
                 style: TextStyle(
+                  fontFamily: 'Schyler',
+                  fontWeight: FontWeight.bold,
                   fontSize: 20.0,
-                  color: Colors.black87,
+                  color: Colors.white,
                 ),
               ),
               onPressed: () {
@@ -138,15 +183,15 @@ class _QuizPageState extends State<QuizPage> {
         Expanded(
           child: Padding(
             padding: EdgeInsets.all(12.0),
-            child: OutlineButton(
-              borderSide: BorderSide(color: Colors.red, width: 2),
-              shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0)),
+            child: DialogButton(
+              color: Color.fromRGBO(255, 114, 111, 1.0),
               child: Text(
                 'False',
                 style: TextStyle(
+                  fontFamily: 'Schyler',
+                  fontWeight: FontWeight.bold,
                   fontSize: 20.0,
-                  color: Colors.black87,
+                  color: Colors.white,
                 ),
               ),
               onPressed: () {
